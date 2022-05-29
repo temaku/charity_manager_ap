@@ -102,8 +102,8 @@ exports.deleteCharity = catchAsync( async (req,res,next)=>{
    if(!charity){
      return next(new AppError('There is no charity with the id',404))
    }
-   res.status(204).json({
+   res.status(200).json({
      status:'success',
-     data:null
+     message:"charity with the Id is deleted successfully"
    })
 })

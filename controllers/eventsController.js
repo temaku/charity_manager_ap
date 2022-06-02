@@ -68,7 +68,7 @@ exports.getEvent = catchAsync(async (req,res,next)=>{
     })
 })
 exports.updateEvent = catchAsync(async (req,res,next)=>{
-    const filteredBody = filterObj(req.body,'title')
+    const filteredBody = filterObj(req.body,'title','description','date','organizer')
     console.log("update");
    if(req.file){
      filteredBody.photo = req.file.filename;

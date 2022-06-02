@@ -31,7 +31,7 @@ exports.getTask = catchAsync(async (req,res,next)=>{
 })
 exports.updateTask =  catchAsync(async (req,res,next)=>{
     const task = await Task.findByIdAndUpdate(req.params.id,
-        req.body,{num:true,runValidators:true})
+        req.body,{new:true,runValidators:true})
     if(!task){
         return next(new AppError('There is no task in collection',404))
     }

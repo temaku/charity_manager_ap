@@ -4,6 +4,7 @@ const stripetest = require('stripe')(process.env.STRIPE_SECRET_KEY);
 // mongodb connection String
 
 
+//stripe payment 
 app.get('/stripePayment',async (req,res)=>{
   const paymentIntent = await stripetest.paymentIntents.create({
     amount: parseInt(req.query.amount),

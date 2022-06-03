@@ -8,7 +8,7 @@ const multer = require('multer');
 
 const multerStorage = multer.memoryStorage();
 const multerFilter = (req,file,cb)=>{
-    if(file.mimetype.startsWith('photo')){
+    if(file.mimetype.startsWith('image')){
         cb(null,true)
     }else{
         cb(new AppError('Not an image! Please upload only images.',400),false)
@@ -22,7 +22,7 @@ const upload = multer({
 exports.uploadFundraisePhoto = upload.single('photo');
 exports.resizeFundraisePhoto = catchAsync(async (req,res,next)=>{
   if(!req.file) return next();
-  req.file.filename = `charity-${Date.now()}.jpeg`;
+  req.file.filename = `fundraise-${Date.now()}.jpeg`;
 
   await sharp(req.file.buffer)
   .resize(500,500)

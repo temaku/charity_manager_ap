@@ -16,7 +16,7 @@ get(fundraiseController.getAllFundraise);
 
 router.route('/:id').
 get(fundraiseController.getFundraise).
-patch(fundraiseController.updateFundraise).
+patch(fundraiseController.uploadFundraisePhoto,fundraiseController.resizeFundraisePhoto,fundraiseController.updateFundraise).
 delete(fundraiseController.deleteFundraise)
 
 module.exports = router;

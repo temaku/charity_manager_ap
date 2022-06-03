@@ -30,6 +30,7 @@ exports.getTask = catchAsync(async (req,res,next)=>{
     })
 })
 exports.updateTask =  catchAsync(async (req,res,next)=>{
+    console.log("update");
     const task = await Task.findByIdAndUpdate(req.params.id,
         req.body,{new:true,runValidators:true})
     if(!task){

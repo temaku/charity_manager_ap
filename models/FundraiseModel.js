@@ -9,6 +9,10 @@ const FundraiseSchema = new mongoose.Schema({
         type:String,
         required:[true,'Please provide the description']
     },
+    photo:{
+        type:String,
+        default:"default.png"
+    },
     amount:{
         type:Number,
         default:0

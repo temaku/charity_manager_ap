@@ -19,7 +19,6 @@ const registerEvent = require('./Routes/eventRegisterRoute');
 const adminRoute = require('./Routes/adminRoute');
 const budgetRoute = require('./Routes/budgetRoute');
 
-
 const errorHandler = require('./middleware/errhandler');
 app.use(morgan('dev'));
 app.use(express.json())

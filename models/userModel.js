@@ -72,6 +72,12 @@ userSchema.virtual('donations', {
   foreignField: 'donor',
   localField: '_id'
 });
+userSchema.virtual('tasks',{
+  ref:'Task',
+  foreignField:'volunteer',
+  localField:'_id'
+
+})
 
 
 userSchema.pre('save', async function(next) {
@@ -109,7 +115,7 @@ userSchema.methods.changedPasswordAfter = function(JWTTimestamp){
   return false;
 }
 userSchema.methods.createPasswordResetToken = function() {
-  const resetToken = crypto.randomBytes(32).toString('hex');
+  const resetToken = crypto.randomBytes(8).toString('hex');
 
   this.passwordResetToken = crypto
     .createHash('sha256')

@@ -1,36 +1,38 @@
 const Charity = require('../models/charityModel');
 const catchAsync = require('../middleware/catchAysnc');
 const AppError = require('../middleware/appError');
-const sharp = require('sharp');
-const multer = require('multer');
+const cloudinary = require('../middleware/cloudnary')
+const upload = require('../middleware/multer')
+// const sharp = require('sharp');
+// const multer = require('multer');
 
 
-const multerStorage = multer.memoryStorage();
-const multerFilter = (req,file,cb)=>{
-    if(file.mimetype.startsWith('image')){
-        cb(null,true)
-    }else{
-        cb(new AppError('Not an image! Please upload only images.',400),false)
-    }
-}
-const upload = multer({
-  storage:multerStorage,
-  fileFilter:multerFilter
-})
+// const multerStorage = multer.memoryStorage();
+// const multerFilter = (req,file,cb)=>{
+//     if(file.mimetype.startsWith('image')){
+//         cb(null,true)
+//     }else{
+//         cb(new AppError('Not an image! Please upload only images.',400),false)
+//     }
+// }
+// const upload = multer({
+//   storage:multerStorage,
+//   fileFilter:multerFilter
+// })
 
-exports.uploadcharityPhoto = upload.single('image');
-exports.resizeCharityPhoto = catchAsync(async (req,res,next)=>{
-  if(!req.file) return next();
-  req.file.filename = `charity-${Date.now()}.jpeg`;
+ exports.uploadcharityPhoto = upload.single('image');
+// exports.resizeCharityPhoto = catchAsync(async (req,res,next)=>{
+//   if(!req.file) return next();
+//   req.file.filename = `charity-${Date.now()}.jpeg`;
 
-  await sharp(req.file.buffer)
-  .resize(500,500)
-  .toFormat('jpeg')
-  .jpeg({ quality:90 })
-  .toFile(`./public/uploads/charity/${req.file.filename}`);
+//   await sharp(req.file.buffer)
+//   .resize(500,500)
+//   .toFormat('jpeg')
+//   .jpeg({ quality:90 })
+//   .toFile(`./public/uploads/charity/${req.file.filename}`);
 
-  next();
-})
+//   next();
+// })
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {};
   Object.keys(obj).forEach(el => {
@@ -76,6 +78,7 @@ exports.getAllCharity = catchAsync(async (req,res,next)=>{
     })
   })
 exports.updateCharity =catchAsync(async (req,res,next)=>{
+  const result = await await cloudinary.uploader.upload(req.file.path)
  const filteredBody = filterObj(req.body,'name','description','email','address','phone')
  
   if(req.file){

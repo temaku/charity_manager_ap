@@ -4,7 +4,7 @@ exports.generateReport = catchAsync( async(req,res,next)=>{
     
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    await page.goto('http://localhost:3000/api/v1/generateReport'
+    await page.goto('http://localhost:3000/generateReport'
     , {
         waitUntil: 'networkidle2',
     });

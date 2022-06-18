@@ -19,6 +19,7 @@ const reportRoute = require('./Routes/reportRoute');
 const registerEvent = require('./Routes/eventRegisterRoute');
 const adminRoute = require('./Routes/adminRoute');
 const budgetRoute = require('./Routes/budgetRoute');
+const generateRoute =require('./Routes/generateReport');
 
 
 
@@ -60,6 +61,7 @@ app.use('/api/v1/reports',reportRoute);
 app.use('/api/v1/events',eventsRoute);
 app.use('/api/v1/register',registerEvent);
 app.use('/api/v1/budget',budgetRoute);
+app.use('/api/v1/generateReport',generateRoute);
 
 
 app.use('/api/v1/users',userRoute);

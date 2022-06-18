@@ -22,20 +22,45 @@ exports.createDonation = catchAsync( async (req,res,next)=>{
       })
 })
 exports.createStripePayment = catchAsync(async (req,res,next)=>{
-    const paymentIntent = await stripe.paymentIntents.create({
-        amount: 1099,
-        currency: 'eur',
-        automatic_payment_methods: {
-          enabled: true,
-        },
-      });
+    let body = req.body;
+    body = JSON.parse(body);
+    console.log(body);
+    const data = {
+        comment:"",
+        donate:body.amount,
+        campaign:body.campaignId,
+        user:body.userId,
+        currency: "USD",
+        status: "CREATED"
+      }
+      const donation = await this.createDonation(data);
+
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: body.amount * 100,
+        currency: body.currency,
+        metadata: {
+          donationId: donation.id
+        }
+      })
+  
+      return res.send({
+        clientSecret: paymentIntent.client_secret
+      })
     
-      res.json({
-        paymentIntent: paymentIntent.client_secret,
-        // ephemeralKey: ephemeralKey.secret,
-        // customer: customer.id,
-        publishableKey: process.env.STRIPE_PUBLIC_KEY
-      });
+    // const paymentIntent = await stripe.paymentIntents.create({
+    //     amount: 1099,
+    //     currency: 'eur',
+    //     automatic_payment_methods: {
+    //       enabled: true,
+    //     },
+    //   });
+    
+    //   res.json({
+    //     paymentIntent: paymentIntent.client_secret,
+    //     // ephemeralKey: ephemeralKey.secret,
+    //     // customer: customer.id,
+    //     publishableKey: process.env.STRIPE_PUBLIC_KEY
+    //   });
 
 })
 

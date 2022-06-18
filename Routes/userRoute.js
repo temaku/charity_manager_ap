@@ -10,7 +10,6 @@ router.get('/me',authMiddleware.protect,userController.getMe,userController.getU
 router.patch('/updateMe',
 authMiddleware.protect,
 userController.uploadUserPhoto,
-userController.resizeUserPhoto,
 userController.updateMe);
 router.delete('/deleteMe',userController.deleteMe);
 

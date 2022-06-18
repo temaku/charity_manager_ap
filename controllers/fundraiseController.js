@@ -1,37 +1,15 @@
 const Fundraise = require('../models/FundraiseModel');
 const catchAsync = require('../middleware/catchAysnc');
 const AppError = require('../middleware/appError');
+const  cloudinaryUploader  = require('../middleware/cloudnary')
+const uploads = require('../middleware/multer')
 
-const sharp = require('sharp');
-const multer = require('multer');
 
 
-const multerStorage = multer.memoryStorage();
-const multerFilter = (req,file,cb)=>{
-    if(file.mimetype.startsWith('image')){
-        cb(null,true)
-    }else{
-        cb(new AppError('Not an image! Please upload only images.',400),false)
-    }
-}
-const upload = multer({
-  storage:multerStorage,
-  fileFilter:multerFilter
-})
 
-exports.uploadFundraisePhoto = upload.single('photo');
-exports.resizeFundraisePhoto = catchAsync(async (req,res,next)=>{
-  if(!req.file) return next();
-  req.file.filename = `fundraise-${Date.now()}.jpeg`;
 
-  await sharp(req.file.buffer)
-  .resize(500,500)
-  .toFormat('jpeg')
-  .jpeg({ quality:90 })
-  .toFile(`./public/uploads/fundraise/${req.file.filename}`);
+exports.uploadFundraisePhoto = uploads.single('image');
 
-  next();
-})
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {};
   Object.keys(obj).forEach(el => {
@@ -71,10 +49,19 @@ exports.getFundraise = catchAsync( async (req,res,next)=>{
 })
 exports.updateFundraise = catchAsync( async (req,res,next)=>{
     const filteredBody = filterObj(req.body,'title','description','amount')
- 
     if(req.file){
-      filteredBody.photo = req.file.filename;
-    }
+        const {path,filename} = req.file;
+        upload = await cloudinaryUploader(
+          path,
+          "auto",
+          "userPhoto",
+          filename,
+        );
+        }
+       // console.log(upload);
+    
+       filteredBody.image = upload.secure_url;
+     
   
     const fundraise = await Fundraise.findByIdAndUpdate(req.params.id,filteredBody,{
         new:true,

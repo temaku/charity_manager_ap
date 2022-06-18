@@ -18,6 +18,9 @@ const reportRoute = require('./Routes/reportRoute');
 const registerEvent = require('./Routes/eventRegisterRoute');
 const adminRoute = require('./Routes/adminRoute');
 const budgetRoute = require('./Routes/budgetRoute');
+const cloudinary = require('./middleware/cloudnary')
+const upload = require('./middleware/multer')
+const  Event = require('./models/eventsModel')
 
 const errorHandler = require('./middleware/errhandler');
 app.use(morgan('dev'));
@@ -35,9 +38,41 @@ app.use(cors());
 app.options('*', cors());
 app.use(express.static(__dirname+"/public/uploads"))
 
-app.get('/api', (req, res) => {
-    res.status(200).send('welcome to charity management system!')
-})
+// app.get('/api', (req, res) => {
+//     res.status(200).send('welcome to charity management system!')
+// })
+// app.post('/image',upload.single('photo'),async(req,res)=>{
+   
+//     try {
+//         // Upload image to cloudinary
+//         const result = await cloudinary.uploader.upload(req.file.path);
+//         res.json(result);
+    
+//         // // Create new user
+//         // let user = new Event({
+//         //  // name: req.body.name,
+//         //   photo: result.secure_url,
+//         //  // cloudinary_id: result.public_id,
+//         // });
+//         // // Save user
+//         // await user.save();
+//         // res.json(user);
+//       } catch (err) {
+//         console.log(err);
+//       }
+
+//     // Create new user
+//     // let user = new User({
+     
+//     //   image: result.secure_url,
+     
+//     // });
+//     // Save user
+//     // await user.save();
+//     // res.json(user);
+  
+
+// })
 
 // auth route
 app.use('/api/v1/auth',authRoutes);

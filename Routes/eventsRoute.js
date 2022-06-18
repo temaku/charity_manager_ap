@@ -14,7 +14,7 @@ get(eventController.getEvents);
 
 router.route('/:id').
 get(eventController.getEvent).
-patch(eventController.uploadEventPhoto,eventController.resizeEventPhoto,eventController.updateEvent).
+patch(eventController.uploadEventPhoto,eventController.updateEvent).
 delete(eventController.deleteEvent);
 
 module.exports = router;

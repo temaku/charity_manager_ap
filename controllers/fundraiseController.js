@@ -80,9 +80,9 @@ exports.deleteFundraise = catchAsync(async (req,res,next)=>{
     if(!fundraise){
         return next(new AppError('No fundraise with the id',404))
     }
-    res.status(204).json({
+    res.status(200).json({
         status:'success',
-        data:null
+        message:"fundraise with the Id is deleted successfully"
     })
 
 })

@@ -7,6 +7,9 @@ router.route('/').post(
     authMiddleware.restrictTo('donor'),
     donationController.setCharityDonorIds,
     donationController.createDonation)
+router.route('/payment-sheet').post(
+    donationController.createStripePayment
+)
 router.route('/').get(donationController.getAllDonation);
 router.get('/get/stats',donationController.getDonationStats);
 

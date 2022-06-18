@@ -76,8 +76,8 @@ exports.deleteEvent = catchAsync(async (req,res,next)=>{
     if(!event){
         return next(new AppError('There is no event with id',404))
     }
-    res.status(204).json({
+    res.status(200).json({
         status:'success',
-        data:null
+        message:"events with the Id is deleted successfully"
     })
 })

@@ -1,6 +1,10 @@
 const Donation = require('../models/donationModel');
 const catchAsync = require('../middleware/catchAysnc');
 const AppError = require('../middleware/appError');
+require("dotenv").config();
+const Stripe = require("stripe");
+
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
 
 exports.setCharityDonorIds = (req,res,next)=>{
@@ -16,6 +20,23 @@ exports.createDonation = catchAsync( async (req,res,next)=>{
           status:'success',
           data:donate
       })
+})
+exports.createStripePayment = catchAsync(async (req,res,next)=>{
+    const paymentIntent = await stripe.paymentIntents.create({
+        amount: 1099,
+        currency: 'eur',
+        automatic_payment_methods: {
+          enabled: true,
+        },
+      });
+    
+      res.json({
+        paymentIntent: paymentIntent.client_secret,
+        // ephemeralKey: ephemeralKey.secret,
+        // customer: customer.id,
+        publishableKey: process.env.STRIPE_PUBLIC_KEY
+      });
+
 })
 
 exports.getAllDonation = catchAsync(async (req,res,next)=>{
@@ -77,9 +98,9 @@ exports.deleteDonation = catchAsync(async (req,res,next)=>{
     if(!donate){
         return next(new AppError('There is no donation with Id',404))
     }
-    res.status(204).json({
+    res.status(200).json({
         status:'success',
-        data:null
+        message:"donation with the Id is deleted successfully"
     })
 })
 

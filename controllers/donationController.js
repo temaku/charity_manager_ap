@@ -17,6 +17,7 @@ exports.createDonation = catchAsync( async (req,res,next)=>{
           data:donate
       })
 })
+
 exports.getAllDonation = catchAsync(async (req,res,next)=>{
     console.log("inside the get");
     const donations = await Donation.find();

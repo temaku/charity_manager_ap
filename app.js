@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+
 const morgan = require('morgan');
 const cors = require('cors');
 const helmet  = require('helmet')
@@ -18,9 +19,9 @@ const reportRoute = require('./Routes/reportRoute');
 const registerEvent = require('./Routes/eventRegisterRoute');
 const adminRoute = require('./Routes/adminRoute');
 const budgetRoute = require('./Routes/budgetRoute');
-const cloudinary = require('./middleware/cloudnary')
-const upload = require('./middleware/multer')
-const  Event = require('./models/eventsModel')
+require("dotenv").config();
+const Stripe = require("stripe");
+
 
 const errorHandler = require('./middleware/errhandler');
 app.use(morgan('dev'));
@@ -38,41 +39,35 @@ app.use(cors());
 app.options('*', cors());
 app.use(express.static(__dirname+"/public/uploads"))
 
-// app.get('/api', (req, res) => {
-//     res.status(200).send('welcome to charity management system!')
-// })
-// app.post('/image',upload.single('photo'),async(req,res)=>{
-   
-//     try {
-//         // Upload image to cloudinary
-//         const result = await cloudinary.uploader.upload(req.file.path);
-//         res.json(result);
-    
-//         // // Create new user
-//         // let user = new Event({
-//         //  // name: req.body.name,
-//         //   photo: result.secure_url,
-//         //  // cloudinary_id: result.public_id,
-//         // });
-//         // // Save user
-//         // await user.save();
-//         // res.json(user);
-//       } catch (err) {
-//         console.log(err);
-//       }
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+// This example sets up an endpoint using the Express framework.
+// Watch this video to get started: https://youtu.be/rPR2aJ6XnAc.
 
-//     // Create new user
-//     // let user = new User({
-     
-//     //   image: result.secure_url,
-     
-//     // });
-//     // Save user
-//     // await user.save();
-//     // res.json(user);
-  
+app.post('/payment-sheet', async (req, res) => {
+  // Use an existing Customer ID if this is a returning customer.
+//   const customer = await stripe.customers.create();
+//   const ephemeralKey = await stripe.ephemeralKeys.create(
+//     {customer: customer.id},
+//     {apiVersion: '2020-08-27'}
+//   );
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: 1099,
+    currency: 'eur',
+    automatic_payment_methods: {
+      enabled: true,
+    },
+  });
 
-// })
+  res.json({
+    paymentIntent: paymentIntent.client_secret,
+    // ephemeralKey: ephemeralKey.secret,
+    // customer: customer.id,
+    publishableKey: process.env.STRIPE_PUBLIC_KEY
+  });
+});
+
+
+
 
 // auth route
 app.use('/api/v1/auth',authRoutes);

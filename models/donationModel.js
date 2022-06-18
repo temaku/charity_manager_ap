@@ -43,7 +43,8 @@ const donationSchema = new mongoose.Schema({
     donatedAt:{
         type:Date,
         default:Date.now()
-    }
+    },
+    
    },
     {
         toJSON: { virtuals: true },

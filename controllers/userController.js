@@ -105,8 +105,8 @@ exports.deleteUser = catchAsync(async (req,res,next)=>{
     if(!user){
         return next(new AppError('There is no user with id'),404)
     }
-    res.status(204).json({
-        status:'success',
-        data:null
+    res.status(200).json({
+    status:'success',
+     message:"charity with the Id is deleted successfully"
     })
 })

@@ -78,7 +78,7 @@ exports.getAllUser = catchAsync( async (req,res,next)=>{
 
 })
 exports.getUser = catchAsync(async (req,res,next)=>{
-    const user = await User.findById(req.params.id).populate('donation');
+    const user = await User.findById(req.params.id).populate('donations').populate('tasks');
     if(!user){
         return next(new AppError('There are no user with that id',404))
     }

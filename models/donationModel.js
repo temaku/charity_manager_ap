@@ -4,16 +4,16 @@ const Charity = require('../models/charityModel');
 const User = require('../models/userModel');
 const Budget = require("../models/budgetAllocate");
 const donationSchema = new mongoose.Schema({
-    // charity:{
-    //     type:mongoose.Schema.Types.ObjectId,
-    //     ref:'Charity',
-    //     required:true
-    // },
-    // donor:{
-    //     type:mongoose.Schema.Types.ObjectId,
-    //     ref:'User',
-    //     required:true
-    // },
+    charity:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Charity',
+        required:true
+    },
+    donor:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User',
+        required:true
+    },
     // DonationOption:{
     //     type:String,
     //     enum:['telebirr','hellocash','CBEbirr'],

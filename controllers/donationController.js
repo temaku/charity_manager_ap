@@ -22,12 +22,12 @@ exports.createDonation = catchAsync( async (req,res,next)=>{
       })
 })
 exports.createStripePayment = catchAsync(async (req,res,next)=>{
-    const customer = await stripe.customers.create({
-        });
-    const ephemeralKey = await stripe.ephemeralKeys.create(
-      {customer: customer.id},
-      {apiVersion: '2020-08-27'}
-    );
+    // const customer = await stripe.customers.create({
+    //     });
+    // const ephemeralKey = await stripe.ephemeralKeys.create(
+    //   {customer: customer.id},
+    //   {apiVersion: '2020-08-27'}
+    // );
     // let body = req.body;
     // body = JSON.parse(body);
     // console.log(body);
@@ -46,23 +46,17 @@ exports.createStripePayment = catchAsync(async (req,res,next)=>{
 
     const paymentIntent = await stripe.paymentIntents.create({
         amount: req.body.amount,
-        currency: 'USD',
-        metadata: {
-            userId: req.body.userId,
-            charity:req.body.charityOrFundId,
-            //cart: JSON.stringify(req.body.cartItems),
-          },
-        automatic_payment_methods: {
-          enabled: true,
-        },
+        currency: req.body.currency,
+        
+        
       });
 
      //console.log(paymentIntent);
       res.json({
     client_secret: paymentIntent.client_secret,
-    ephemeralKey: ephemeralKey.secret,
-    customer: customer.id,
-    publishableKey: 'pk_test_51KgxpnCY2HhjTaMFA8cYQbMpT59mUntMToxMYBHXZMHZMgWCyxjSRsRuji5YwSL8ePqC4BPgAplDuFsvcGIkEq8Z002m7aZECy'
+    // ephemeralKey: ephemeralKey.secret,
+    // customer: customer.id,
+    // publishableKey: 'pk_test_51KgxpnCY2HhjTaMFA8cYQbMpT59mUntMToxMYBHXZMHZMgWCyxjSRsRuji5YwSL8ePqC4BPgAplDuFsvcGIkEq8Z002m7aZECy'
         
       });
     })

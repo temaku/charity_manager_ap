@@ -23,14 +23,7 @@ exports.createDonation = catchAsync( async (req,res,next)=>{
 })
 exports.createStripePayment = catchAsync(async (req,res,next)=>{
     const customer = await stripe.customers.create({
-        metadata: {
-          userId: req.body.userId,
-          charity:req.body.charityOrfundId,
-          amount:req.body.amount,
-          currency:"USD",
-          //cart: JSON.stringify(req.body.cartItems),
-        },
-      });
+        });
     const ephemeralKey = await stripe.ephemeralKeys.create(
       {customer: customer.id},
       {apiVersion: '2020-08-27'}
@@ -50,8 +43,13 @@ exports.createStripePayment = catchAsync(async (req,res,next)=>{
     console.log(customer.metadata);
 
     const paymentIntent = await stripe.paymentIntents.create({
-        amount: 1099,
-        currency: 'eur',
+        amount: req.body.amount,
+        currency: 'USD',
+        metadata: {
+            userId: req.body.userId,
+            charity:req.body.charityOrfundId,
+            //cart: JSON.stringify(req.body.cartItems),
+          },
         automatic_payment_methods: {
           enabled: true,
         },

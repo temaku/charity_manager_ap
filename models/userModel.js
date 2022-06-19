@@ -50,6 +50,12 @@ const userSchema = new mongoose.Schema({
     minlength: 8,
     select: false,
   },
+  status:{
+    type:String,
+    Enum:['pending','Active'],
+    default:'pending'
+
+},
   passwordChangedAt:Date,
   passwordResetToken: String,
   passwordResetExpires: Date,

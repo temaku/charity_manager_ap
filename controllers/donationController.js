@@ -47,8 +47,14 @@ exports.createStripePayment = catchAsync(async (req,res,next)=>{
     const paymentIntent = await stripe.paymentIntents.create({
         amount: req.body.amount,
         currency: req.body.currency,
-        
-        
+        metadata: {
+            userId: req.body.userId,
+            charity:req.body.charityOrFundId,
+            //cart: JSON.stringify(req.body.cartItems),
+          },
+        automatic_payment_methods: {
+          enabled: true,
+        },
       });
 
      //console.log(paymentIntent);

@@ -46,23 +46,59 @@ exports.createStripePayment = catchAsync(async (req,res,next)=>{
       return res.send({
         clientSecret: paymentIntent.client_secret
       })
-    
-    // const paymentIntent = await stripe.paymentIntents.create({
-    //     amount: 1099,
-    //     currency: 'eur',
-    //     automatic_payment_methods: {
-    //       enabled: true,
-    //     },
-    //   });
-    
-    //   res.json({
-    //     paymentIntent: paymentIntent.client_secret,
-    //     // ephemeralKey: ephemeralKey.secret,
-    //     // customer: customer.id,
-    //     publishableKey: process.env.STRIPE_PUBLIC_KEY
-    //   });
+    })
+const endpointSecret = "whsec_7b4b88c9bcb8bd4681c791ce45314903d8b317db292ee153b6dfb53f1c6bb17b";
+exports.webhooksendPoint = async (req,res)=>{
+    const sig = req.headers['stripe-signature'];
 
-})
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+    console.log("web hook verified");
+  } catch (err) {
+    console.log(`web hook error: ${err.message}`)
+    response.status(400).send(`Webhook Error: ${err.message}`);
+    return;
+  }
+   res.send().end();
+    //const event = req.body;
+    // const paymentIntent = event.data.object
+    // const metaData = paymentIntent.metadata;
+    // const donationId = metaData.donationId;
+    // switch(event.type) {
+    //     case 'payment_intent.succeeded':
+    //       try {
+    //         this.updateDonation(donationId, "SUCCEEDED", event);
+    //         sendDonationSuccessFullMail(donationId);
+    //         // const donation = awaitstrapi.query('donations').findOne({id:donationId});
+    //         // const campaign = strapi.query('campaigns').findOne({id:donation.campaign_id})
+    //       } catch (error) {
+    //         console.log(error);
+    //       }
+    //       break;
+    //     case 'payment_intent.payment_failed':
+    //       try{
+    //         this.updateDonation(donationId, "FAILED", event);
+    //       }catch(error){
+    //         console.log(error);
+    //       }
+    //       break;
+    //     default:
+    //       // Unexpected event type
+    //       console.log(`Unhandled event type ${event.type}`);
+    //   }
+    //   return res.send({
+    //     "message":"webhook handled"
+
+    // console.log(gPaymentIntent for ${JSON.stringify(event)} was successful!`);
+    // console.log(PaymentIntent for ${paymentIntent.amount} was successful!);
+
+
+}
+   
+
+
 
 exports.getAllDonation = catchAsync(async (req,res,next)=>{
     console.log("inside the get");

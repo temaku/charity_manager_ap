@@ -36,6 +36,7 @@ app.use(rateLimiter({
 
 app.use(cors());
 
+
 app.options('*', cors());
 app.use(express.static(__dirname+"/public/uploads"))
 

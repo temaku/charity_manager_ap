@@ -10,6 +10,9 @@ router.route('/').post(
 router.route('/payment-sheet').post(
     donationController.createStripePayment
 )
+router.route('/webhook').post(
+    donationController.webhooksendPoint
+)
 router.route('/').get(donationController.getAllDonation);
 router.get('/get/stats',donationController.getDonationStats);
 

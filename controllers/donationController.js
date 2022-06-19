@@ -41,19 +41,21 @@ exports.createStripePayment = catchAsync(async (req,res,next)=>{
     //   }
     //   const donation = await this.createDonation(data);
     console.log(customer.metadata);
+    body = JSON.parse(req.body);
 
     const paymentIntent = await stripe.paymentIntents.create({
-        amount: req.body.amount,
+        amount: body.amount,
         currency: 'USD',
         metadata: {
-            userId: req.body.userId,
-            charity:req.body.charityOrfundId,
+            userId: body.userId,
+            charity:body.charityOrFundId,
             //cart: JSON.stringify(req.body.cartItems),
           },
         automatic_payment_methods: {
           enabled: true,
         },
       });
+
      //console.log(paymentIntent);
       res.json({
     client_secret: paymentIntent.client_secret,

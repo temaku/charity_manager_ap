@@ -22,6 +22,11 @@ exports.createDonation = catchAsync( async (req,res,next)=>{
       })
 })
 exports.createStripePayment = catchAsync(async (req,res,next)=>{
+    const customer = await stripe.customers.create();
+    const ephemeralKey = await stripe.ephemeralKeys.create(
+      {customer: customer.id},
+      {apiVersion: '2020-08-27'}
+    );
     // let body = req.body;
     // body = JSON.parse(body);
     // console.log(body);
@@ -42,9 +47,13 @@ exports.createStripePayment = catchAsync(async (req,res,next)=>{
           enabled: true,
         },
       });
-    
+     console.log(paymentIntent);
       res.json({
-        client_secret: paymentIntent.client_secret,
+    client_secret: paymentIntent.client_secret,
+    ephemeralKey: ephemeralKey.secret,
+    customer: customer.id,
+    publishableKey: 'pk_test_51KgxpnCY2HhjTaMFA8cYQbMpT59mUntMToxMYBHXZMHZMgWCyxjSRsRuji5YwSL8ePqC4BPgAplDuFsvcGIkEq8Z002m7aZECy'
+        
       });
     })
 const endpointSecret = "whsec_7b4b88c9bcb8bd4681c791ce45314903d8b317db292ee153b6dfb53f1c6bb17b";

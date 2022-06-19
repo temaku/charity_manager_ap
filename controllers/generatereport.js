@@ -2,7 +2,12 @@ const catchAsync = require('../middleware/catchAysnc');
 const puppeteer = require('puppeteer')
 exports.generateReport = catchAsync( async(req,res,next)=>{
     
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+        'args' : [
+            '--no-sandbox',
+            '--disable-setuid-sandbox'
+          ]
+    });
     const page = await browser.newPage();
     await page.goto('http://localhost:3000/generateReport'
     , {

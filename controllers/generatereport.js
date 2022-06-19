@@ -9,7 +9,7 @@ exports.generateReport = catchAsync( async(req,res,next)=>{
           ]
     });
     const page = await browser.newPage();
-    await page.goto('http://192.168.43.40/:3000/generateReport'
+    await page.goto('https://charity-manager-web-app.netlify.app/generateReport'
     , {
         waitUntil: 'networkidle2',
     });

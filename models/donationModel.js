@@ -4,37 +4,37 @@ const Charity = require('../models/charityModel');
 const User = require('../models/userModel');
 const Budget = require("../models/budgetAllocate");
 const donationSchema = new mongoose.Schema({
-    charity:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'Charity',
-        required:true
-    },
-    donor:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'User',
-        required:true
-    },
-    DonationOption:{
-        type:String,
-        enum:['telebirr','hellocash','CBEbirr'],
-        default:'telebirr'
+    // charity:{
+    //     type:mongoose.Schema.Types.ObjectId,
+    //     ref:'Charity',
+    //     required:true
+    // },
+    // donor:{
+    //     type:mongoose.Schema.Types.ObjectId,
+    //     ref:'User',
+    //     required:true
+    // },
+    // DonationOption:{
+    //     type:String,
+    //     enum:['telebirr','hellocash','CBEbirr'],
+    //     default:'telebirr'
 
-    },
-    status:{
-        type:String,
-        enum:['pending','Accepted','REjected'],
-        default:'pending'
+    // },
+    // status:{
+    //     type:String,
+    //     enum:['pending','Accepted','REjected'],
+    //     default:'pending'
 
-    },
-    phone:{
-        type:Number,
-        required:[true,'please provide your phone number']
-    },
-    password:{
-        type:String,
-        select: false,
-        required:[true,'Please provide password of your account']
-    },
+    // },
+    // phone:{
+    //     type:Number,
+    //     required:[true,'please provide your phone number']
+    // },
+    // password:{
+    //     type:String,
+    //     select: false,
+    //     required:[true,'Please provide password of your account']
+    // },
     donate:{
         type:Number,
         required:[true,'The amount of money to donate']

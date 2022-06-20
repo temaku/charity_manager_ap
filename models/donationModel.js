@@ -14,27 +14,13 @@ const donationSchema = new mongoose.Schema({
         ref:'User',
         required:true
     },
-    // DonationOption:{
-    //     type:String,
-    //     enum:['telebirr','hellocash','CBEbirr'],
-    //     default:'telebirr'
+    currency:{
+        type:String
 
-    // },
-    // status:{
-    //     type:String,
-    //     enum:['pending','Accepted','REjected'],
-    //     default:'pending'
-
-    // },
-    // phone:{
-    //     type:Number,
-    //     required:[true,'please provide your phone number']
-    // },
-    // password:{
-    //     type:String,
-    //     select: false,
-    //     required:[true,'Please provide password of your account']
-    // },
+    },
+    status:{
+        type:String
+    },
     donate:{
         type:Number,
         required:[true,'The amount of money to donate']

@@ -26,13 +26,13 @@ exports.createStripePayment = catchAsync(async (req,res,next)=>{
     const data = {
         donate:req.body.amount,
         charity:req.body.charityOrFundId,
-        user:body.userId,
-        currency: "USD",
+        user:req.body.userId,
+        currency: req.body.currency,
         status: "CREATED"
       }
       const donation = await this.createDonation(data);
    
-     console.log(req.body);
+    // console.log(req.body);
 
     const paymentIntent = await stripe.paymentIntents.create({
         amount: req.body.amount,

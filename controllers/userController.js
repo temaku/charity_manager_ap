@@ -39,7 +39,6 @@ exports.updateMe = catchAsync(async (req,res,next)=>{
         );
         }
        // console.log(upload);
-    
        filteredBody.image = upload.secure_url;
     const updateUser = await User.findByIdAndUpdate(req.user.id,filteredBody,{
         new:true,

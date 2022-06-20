@@ -24,13 +24,13 @@ exports.createDonation = catchAsync( async (req,res,next)=>{
 exports.createStripePayment = catchAsync(async (req,res,next)=>{
    
     const data = {
-        donate:req.body.amount,
-        charity:req.body.charityOrFundId,
-        user:req.body.userId,
-        currency: req.body.currency,
+        donate:amount,
+        charity:metadata.charityId,
+        donor:metadata.userId,
+        currency: currency,
         status: "CREATED"
       }
-       const donate = await Donation.create(data);
+       const donate = await Donation.save(data);
         res.status(201).json({
             status:'success',
             data:donate
@@ -43,6 +43,8 @@ exports.createStripePayment = catchAsync(async (req,res,next)=>{
         amount: req.body.amount,
         currency: req.body.currency,
         metadata: {
+          charityId:req.body.charityOrFundId,
+          userId:req.body.userId,
           donationId:donate._id
           },
         automatic_payment_methods: {

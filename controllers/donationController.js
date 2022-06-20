@@ -30,7 +30,12 @@ exports.createStripePayment = catchAsync(async (req,res,next)=>{
         currency: req.body.currency,
         status: "CREATED"
       }
-      const donation = await this.createDonation(data);
+       const donate = await Donation.create(req.body);
+        res.status(201).json({
+            status:'success',
+            data:donate
+        })
+
    
     // console.log(req.body);
 
@@ -38,7 +43,7 @@ exports.createStripePayment = catchAsync(async (req,res,next)=>{
         amount: req.body.amount,
         currency: req.body.currency,
         metadata: {
-          donationId:donation._id
+          donationId:donate._id
           },
         automatic_payment_methods: {
           enabled: true,

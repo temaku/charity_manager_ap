@@ -30,7 +30,7 @@ exports.createStripePayment = catchAsync(async (req,res,next)=>{
         currency: req.body.currency,
         status: "CREATED"
       }
-       const donate = await Donation.create(req.body);
+       const donate = await Donation.create(data);
         res.status(201).json({
             status:'success',
             data:donate

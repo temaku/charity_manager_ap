@@ -23,18 +23,7 @@ exports.createDonation = catchAsync( async (req,res,next)=>{
 })
 exports.createStripePayment = catchAsync(async (req,res,next)=>{
    
-    const data = {
-        donate:amount,
-        charity:metadata.charityId,
-        donor:metadata.userId,
-        currency: currency,
-        status: "CREATED"
-      }
-       const donate = await Donation.save(data);
-        res.status(201).json({
-            status:'success',
-            data:donate
-        })
+    
 
    
     // console.log(req.body);
@@ -45,7 +34,7 @@ exports.createStripePayment = catchAsync(async (req,res,next)=>{
         metadata: {
           charityId:req.body.charityOrFundId,
           userId:req.body.userId,
-          donationId:donate._id
+         // donationId:donate._id
           },
         automatic_payment_methods: {
           enabled: true,
@@ -60,6 +49,18 @@ exports.createStripePayment = catchAsync(async (req,res,next)=>{
     // publishableKey: 'pk_test_51KgxpnCY2HhjTaMFA8cYQbMpT59mUntMToxMYBHXZMHZMgWCyxjSRsRuji5YwSL8ePqC4BPgAplDuFsvcGIkEq8Z002m7aZECy'
         
       });
+      const data = {
+        donate:req.body.amount,
+        charity:metadata.charityId,
+        donor:metadata.userId,
+        currency: currency,
+        status: "CREATED"
+      }
+       const donate = await Donation.save(data);
+        res.status(201).json({
+            status:'success',
+            data:donate
+        })
     })
 const endpointSecret = "whsec_7b4b88c9bcb8bd4681c791ce45314903d8b317db292ee153b6dfb53f1c6bb17b";
 exports.webhooksendPoint = async (req,res)=>{
